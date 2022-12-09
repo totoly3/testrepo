@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//E" "mybatis-3-mapper.dtd" >
+<mapper namespace="memberMapper">
+ 	<!-- 아래는 memberResultSet -->
+ 	<resultMap type="member" id="memberResultSet">
+ 		<result column="USER_ID" property="userId"/>
+ 		<result column="USER_PWD" property="userPwd"/>
+ 		<result column="USER_NAME" property="userName"/>	
+ 		<result column="EMAIL" property="email"/>
+ 		<result column="GENDER" property="gender"/>
+ 		<result column="AGE" property="age"/>
+ 		<result column="PHONE" property="phone"/>
+ 		<result column="ADDRESS" property="address"/>
+	 	<result column="ENROLL_DATE" property="enrollDate"/>
+	 	<result column="MODIFY_DATE" property="modifyDate"/>
+	 	<result column="STATUS" property="status"/>
+ 	</resultMap>
+ 	
+ 	
+ 	<!--아래는 로그인 -->				<!-- 파라미터 타입은 알리아스에서 별칭 member로해놔서 그럼 안그러면 주소 풀경로 적어야됨  -->
+ 	<select id="loginMember" parameterType="member" resultMap="memberResultSet">
+ 		SELECT * 
+ 		FROM MEMBER
+ 		WHERE USER_ID = #{userId}
+<!--  		AND USER_PWD = #{userPwd} 암호화 전 구문 -->
+ 		AND STATUS = 'Y'
+ 	
+ 	</select>
+ 	
+ 	
+ 	
+ 	<!-- 아래는 암호화 이후 회원가입  -->
+ 	<insert id="insertMember" parameterType="member" >
+ 		INSERT INTO MEMBER (
+                          USER_ID
+                         ,USER_PWD
+                       	 ,USER_NAME
+                       	 ,EMAIL
+                         ,GENDER
+                         ,AGE
+                         ,PHONE
+                         ,ADDRESS
+                         )VALUES(
+                          #{userId}
+                         ,#{userPwd}
+                         ,#{userName}
+                         ,#{email}
+                         ,#{gender}
+                         ,#{age}
+                         ,#{phone}
+                         ,#{address}
+                        
+                           )
+                                        
+ 	</insert>
+ 	
+<!-- 아래는회원정보수정 -->
+	<update id="updateMember" parameterType="member" >
+		UPDATE MEMBER
+		SET	USER_NAME = #{ userName },
+			EMAIL = #{ email },
+			GENDER = #{ gender },
+			AGE = #{ age },
+			PHONE = #{ phone },
+			ADDRESS = #{ address },
+			MODIFY_DATE = SYSDATE
+		WHERE USER_ID = #{ userId }
+		AND STATUS = 'Y'	
+	</update>
+	
+	<!-- 아래는 회원탈퇴 -->
+ 
+ 	<update id="deleteMember" parameterType="member" >
+ 	UPDATE MEMBER SET 
+ 		STATUS = 'N'
+ 		WHERE USER_ID = #{ userId }
+ 		AND STATUS='Y'
+ 	</update>
+ 	
+ 	<!-- 아래는 중복아이디조회  일치하면1 , 일치하지않으면0  -->
+ 	<select id="idcheck" resultType="_int" parameterType="String">
+ 	SELECT COUNT(*)
+ 	FROM MEMBER 
+ 	WHERE USER_ID = #{userId}
+ 	AND STATUS='Y'
+ 	
+ 	</select>
+</mapper>
