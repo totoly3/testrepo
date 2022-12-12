@@ -15,6 +15,9 @@ public class Reply {
 	private String replyWriter;			//	REPLY_WRITER	VARCHAR2(30 BYTE)
 	private Date createDate;			//	CREATE_DATE	DATE
 	private String status;			//	STATUS	VARCHAR2(1 BYTE)
+	private String reparent; //부ㅠ모댓글번호			//	REPARENT
+	private String redepth;	//댓글깊이						//	REDEPTH
+	private Integer reorder;	//댓글순서						//	REORDER
 	
 	
 	

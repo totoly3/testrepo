@@ -147,11 +147,11 @@
                 	</c:otherwise>
                 </c:choose>
                     <tr>
-                        <td colspan="3">댓글(<span id="rcount"></span>)</td>
+                        <td colspan="3" > 댓글(<span id="rcount"></span>)</td>
                     </tr>
                 </thead>
                 <tbody>
-            
+       						
                 </tbody>
             </table>
         </div>
@@ -182,8 +182,10 @@
 								+"</tr>";
 				}	
 				
-				$("#replyArea > tbody").html(resultStr);
+				$("#replyArea > tbody").html(resultStr).css(margin-left:<c:out value="${20*result.redepth}"/>px);
 				$("#rcount").text(result.length);
+
+
     			},
     			error :function(){
     				console.log("통신 실패");
